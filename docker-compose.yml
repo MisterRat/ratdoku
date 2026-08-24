@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  sudoku:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sudoku-pwa:latest
+    container_name: sudoku-app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3333}:80"
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "com.docker.compose.project=sudoku"
+      - "com.portainer.stack.name=sudoku-pwa"
