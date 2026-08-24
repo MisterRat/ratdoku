@@ -140,9 +140,9 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Mode & Difficulty Selector Row */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+      <div className="flex items-center justify-between gap-1 sm:gap-2 pt-0.5">
         {/* Difficulty buttons */}
-        <div className="flex items-center p-1 rounded-xl bg-neutral-200/70 dark:bg-neutral-800/70 backdrop-blur-sm gap-1">
+        <div className="flex items-center p-0.5 sm:p-1 rounded-lg sm:rounded-xl bg-neutral-200/70 dark:bg-neutral-800/70 backdrop-blur-sm gap-0.5 sm:gap-1 shrink-0">
           {(['easy', 'medium', 'hard'] as Difficulty[]).map((d) => {
             const isActive = difficulty === d;
             return (
@@ -151,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({
                 id={`diff-tab-${d}`}
                 type="button"
                 onClick={() => onChangeDifficulty(d)}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${
+                className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-semibold capitalize transition-all cursor-pointer ${
                   isActive
                     ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs'
                     : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
@@ -164,12 +164,12 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Mode Toggle & New Game */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           <button
             id="btn-mode-toggle"
             type="button"
             onClick={() => (mode === 'daily' ? onSelectClassic() : onSelectDaily())}
-            className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
+            className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-medium border transition-colors cursor-pointer ${
               mode === 'daily'
                 ? 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 font-semibold'
                 : `${theme.controlBtnBg}`
@@ -182,7 +182,7 @@ export const Header: React.FC<HeaderProps> = ({
             id="btn-new-game"
             type="button"
             onClick={onNewGame}
-            className={`flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-medium ${theme.accentBtn} cursor-pointer transition-all shadow-xs active:scale-95`}
+            className={`flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-medium ${theme.accentBtn} cursor-pointer transition-all shadow-xs active:scale-95`}
             title="Generate a new game"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -193,7 +193,7 @@ export const Header: React.FC<HeaderProps> = ({
             id="btn-restart-game"
             type="button"
             onClick={onRestartCurrentGame}
-            className={`p-1.5 rounded-lg ${theme.controlBtnBg} cursor-pointer hover:opacity-80 transition-opacity`}
+            className={`p-1 sm:p-1.5 rounded-md sm:rounded-lg ${theme.controlBtnBg} cursor-pointer hover:opacity-80 transition-opacity`}
             title="Restart current board"
             aria-label="Restart current board"
           >

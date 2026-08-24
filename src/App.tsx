@@ -61,7 +61,7 @@ export default function App() {
 
   // Performance tracking & timer
   const [timerSeconds, setTimerSeconds] = useState<number>(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(true);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [mistakesCount, setMistakesCount] = useState<number>(0);
   const [hintsCount, setHintsCount] = useState<number>(0);
@@ -97,7 +97,12 @@ export default function App() {
 
   // Start a fresh new game
   const startNewGame = useCallback(
-    (targetDifficulty: Difficulty = difficulty, targetMode: GameMode = mode, targetDateKey?: string) => {
+    (
+      targetDifficulty: Difficulty = difficulty,
+      targetMode: GameMode = mode,
+      targetDateKey?: string,
+      startPaused: boolean = false
+    ) => {
       const dKey = targetDateKey || (targetMode === 'daily' ? getTodayDateKey() : undefined);
       const newPuzzle = generateSudokuPuzzle(targetDifficulty, targetMode, dKey);
       const newBoard = createBoardFromPuzzle(newPuzzle);
@@ -111,7 +116,7 @@ export default function App() {
       setHighlightedNumber(null);
       setHistory([]);
       setTimerSeconds(0);
-      setIsPaused(false);
+      setIsPaused(startPaused);
       setIsCompleted(false);
       setMistakesCount(0);
       setHintsCount(0);
@@ -125,7 +130,7 @@ export default function App() {
         puzzle: newPuzzle,
         board: newBoard,
         timerSeconds: 0,
-        isPaused: false,
+        isPaused: startPaused,
         isComplete: false,
         mistakesCount: 0,
         hintsCount: 0,
@@ -155,7 +160,7 @@ export default function App() {
     setShowGameOverModal(false);
   }, [createBoardFromPuzzle, puzzle]);
 
-  // Initial load: restore saved active game or generate fresh game
+  // Initial load: restore saved active game or generate fresh game (always loads paused)
   useEffect(() => {
     const saved = loadSavedGame();
     if (saved && saved.puzzle && saved.board && !saved.isComplete) {
@@ -167,10 +172,10 @@ export default function App() {
       if (saved.dateKey) setDateKey(saved.dateKey);
       setMistakesCount(saved.mistakesCount || 0);
       setHintsCount(saved.hintsCount || 0);
-      setIsPaused(false);
+      setIsPaused(true);
       setIsCompleted(false);
     } else {
-      startNewGame('medium', 'classic');
+      startNewGame('medium', 'classic', undefined, true);
     }
   }, []);
 
