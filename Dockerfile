@@ -1,7 +1,7 @@
 # ==========================================
-# Stage 1: Build the static frontend application
+# Stage 1: Build the static frontend application (Runs natively on builder host)
 # ==========================================
-FROM node:20-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:20-alpine AS builder
 
 WORKDIR /app
 
