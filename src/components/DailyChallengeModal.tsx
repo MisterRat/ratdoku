@@ -20,7 +20,7 @@ export const DailyChallengeModal: React.FC<DailyChallengeModalProps> = ({
   theme,
 }) => {
   const todayKey = getTodayDateKey();
-  const [selectedDate, setSelectedDate] = useState<string>(todayKey);
+  const [selectedDate, setSelectedDate] = useState<string>(currentDateKey || todayKey);
   const records = loadDailyRecords();
 
   // Get days in current month

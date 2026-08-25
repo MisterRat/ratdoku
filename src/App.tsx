@@ -46,7 +46,7 @@ export default function App() {
 
   // Game configuration
   const [difficulty, setDifficulty] = useState<Difficulty>('medium');
-  const [mode, setMode] = useState<GameMode>('classic');
+  const [mode, setMode] = useState<GameMode>('daily');
   const [dateKey, setDateKey] = useState<string>(getTodayDateKey());
 
   // Active puzzle & board state
@@ -160,7 +160,7 @@ export default function App() {
     setShowGameOverModal(false);
   }, [createBoardFromPuzzle, puzzle]);
 
-  // Initial load: restore saved active game or generate fresh game (always loads paused)
+  // Initial load: restore saved active game or generate fresh game (always loads paused in daily mode)
   useEffect(() => {
     const saved = loadSavedGame();
     if (saved && saved.puzzle && saved.board && !saved.isComplete) {
@@ -168,14 +168,18 @@ export default function App() {
       setBoard(saved.board);
       setTimerSeconds(saved.timerSeconds || 0);
       setDifficulty(saved.difficulty || 'medium');
-      setMode(saved.mode || 'classic');
-      if (saved.dateKey) setDateKey(saved.dateKey);
+      setMode(saved.mode || 'daily');
+      const targetDate = saved.dateKey || getTodayDateKey();
+      setDateKey(targetDate);
       setMistakesCount(saved.mistakesCount || 0);
       setHintsCount(saved.hintsCount || 0);
       setIsPaused(true);
       setIsCompleted(false);
     } else {
-      startNewGame('medium', 'classic', undefined, true);
+      const today = getTodayDateKey();
+      setDateKey(today);
+      setMode('daily');
+      startNewGame('medium', 'daily', today, true);
     }
   }, []);
 
@@ -406,11 +410,14 @@ export default function App() {
         const isBest = currentBest === null || timerSeconds < currentBest;
         setIsNewBestTime(isBest);
 
+        const isDailyGame = puzzle.mode === 'daily' || mode === 'daily' || puzzle.id.startsWith('daily-');
+        const targetDate = puzzle.dateKey || dateKey || (isDailyGame ? getTodayDateKey() : undefined);
+
         const updatedStats = recordGameWin(
           difficulty,
           timerSeconds,
-          mode === 'daily',
-          dateKey,
+          isDailyGame,
+          targetDate,
           hintsCount
         );
         setStats(updatedStats);
@@ -592,11 +599,15 @@ export default function App() {
     if (checkVictory(newBoard)) {
       setIsCompleted(true);
       soundManager.playVictory();
+
+      const isDailyGame = puzzle.mode === 'daily' || mode === 'daily' || puzzle.id.startsWith('daily-');
+      const targetDate = puzzle.dateKey || dateKey || (isDailyGame ? getTodayDateKey() : undefined);
+
       const updatedStats = recordGameWin(
         difficulty,
         timerSeconds,
-        mode === 'daily',
-        dateKey,
+        isDailyGame,
+        targetDate,
         hintsCount + 1
       );
       setStats(updatedStats);
@@ -808,18 +819,18 @@ export default function App() {
           dailyStreak={stats.dailyStreak}
           onPlayAnotherSameLevel={() => {
             setShowVictoryModal(false);
-            startNewGame(difficulty, 'classic');
+            startNewGame(difficulty, mode, dateKey);
           }}
           onPlayNextDifficulty={
             difficulty === 'easy'
               ? () => {
                   setShowVictoryModal(false);
-                  startNewGame('medium', 'classic');
+                  startNewGame('medium', mode, dateKey);
                 }
               : difficulty === 'medium'
               ? () => {
                   setShowVictoryModal(false);
-                  startNewGame('hard', 'classic');
+                  startNewGame('hard', mode, dateKey);
                 }
               : undefined
           }
