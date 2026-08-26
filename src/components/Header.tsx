@@ -72,8 +72,8 @@ export const Header: React.FC<HeaderProps> = ({
             <h1 className="text-lg sm:text-xl font-light tracking-[0.18em] leading-none text-white">
               RAT<span className="font-bold text-indigo-400">DOKU</span>
             </h1>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400 dark:text-slate-500 font-medium leading-none mt-1">
-              {mode === 'daily' ? `Daily • ${dateKey ? formatDateDisplay(dateKey) : 'Challenge'}` : 'By MrRat.com'}
+            <p className="text-[10px] tracking-wider text-slate-400 dark:text-slate-500 font-medium leading-none mt-1">
+              ver 1.01 by MrRat.com
             </p>
           </div>
         </div>

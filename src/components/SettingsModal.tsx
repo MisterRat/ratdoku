@@ -218,6 +218,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         >
           Save & Close
         </button>
+
+        <p className="text-center text-[10px] text-neutral-400 dark:text-neutral-500 font-medium">
+          RatDoku • ver 1.01 by MrRat.com
+        </p>
       </div>
     </div>
   );
