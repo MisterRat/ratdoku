@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lightbulb, X, Check, Sparkles } from 'lucide-react';
+import { Lightbulb, X, Check } from 'lucide-react';
 import { HintInfo } from '../types';
 import { ThemeStyles } from '../utils/theme';
 
@@ -59,19 +59,10 @@ export const HintBar: React.FC<HintBarProps> = ({
           id="btn-dismiss-hint-secondary"
           type="button"
           onClick={onDismiss}
-          className="px-3 py-1.5 text-xs font-medium text-amber-800 dark:text-amber-300 hover:underline cursor-pointer"
-        >
-          I'll solve it myself
-        </button>
-
-        <button
-          id="btn-apply-hint"
-          type="button"
-          onClick={onApplyHint}
           className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-xs cursor-pointer active:scale-95 transition-all"
         >
           <Check className="w-3.5 h-3.5" />
-          <span>Apply {hint.suggestedValue}</span>
+          <span>Got it, I'll solve it</span>
         </button>
       </div>
     </div>

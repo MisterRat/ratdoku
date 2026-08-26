@@ -43,7 +43,15 @@ export interface HintHighlight {
 }
 
 export interface HintInfo {
-  type: 'naked_single' | 'hidden_single' | 'only_square' | 'rule_elimination';
+  type:
+    | 'naked_single'
+    | 'hidden_single'
+    | 'only_square'
+    | 'rule_elimination'
+    | 'locked_candidates'
+    | 'naked_pair'
+    | 'hidden_pair'
+    | 'x_wing';
   row: number;
   col: number;
   suggestedValue: number;

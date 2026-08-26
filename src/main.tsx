@@ -10,15 +10,16 @@ createRoot(document.getElementById('root')!).render(
 );
 
 // Register Progressive Web App (PWA) Service Worker
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator && typeof window !== 'undefined') {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        console.log('PWA ServiceWorker registered successfully with scope:', registration.scope);
+        console.log('RatDoku PWA ServiceWorker registered with scope:', registration.scope);
       })
       .catch((error) => {
-        console.warn('PWA ServiceWorker registration failed:', error);
+        console.warn('RatDoku PWA ServiceWorker registration failed:', error);
       });
   });
 }
+
